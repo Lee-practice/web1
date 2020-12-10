@@ -35,8 +35,17 @@ socket.on('update', function(data) {
     case 'disconnect':
       className = 'disconnect'
       break
+    
+    case 'emoticon':
+      className = 'other'
+      message.classList.add(className)
+      node = document.createElement("img")
+      node.setAttribute("src", data.message)
+      message.appendChild(node)
+      chat.appendChild(message)
+      break
   }
-
+  
   message.classList.add(className)
   message.appendChild(node)
   chat.appendChild(message)
@@ -60,4 +69,50 @@ function send() {
 
   // 서버로 message 이벤트 전달 + 데이터와 함께
   socket.emit('message', {type: 'message', message: message})
+}
+
+function emoticonSend(emoticon) {
+  // 어느 버튼인지 확인 및 데이터 가져오기
+  var emo = emoticon;
+  var message = '';
+  switch(emo)
+    {
+      case "emoticon1":
+      {
+        message = document.getElementById('emoticon1').src        
+        break;
+      }        
+      case "emoticon2":
+      {
+        message = document.getElementById('emoticon2').src        
+        break;
+      }
+      case "emoticon3":
+      {
+        message = document.getElementById('emoticon3').src       
+        break;
+      } 
+      case "emoticon4":
+      {
+        message = document.getElementById('emoticon4').src      
+        break;
+      } 
+      case "emoticon5":
+      {
+        message = document.getElementById('emoticon5').src      
+        break;
+      } 
+    }
+
+  // 내가 전송할 메시지 클라이언트에게 표시
+  var chat = document.getElementById('chat')
+  var msg = document.createElement('div')
+  var node = document.createElement("img")
+  node.setAttribute("src", message)
+  msg.classList.add('me')
+  msg.appendChild(node)
+  chat.appendChild(msg)
+
+  // 서버로 message 이벤트 전달 + 데이터와 함께
+  socket.emit('message', {type: 'emoticon', message: message})
 }
