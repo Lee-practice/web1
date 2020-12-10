@@ -43,6 +43,7 @@ io.sockets.on('connection', function(socket){
     })
 })
 
-server.listen(8080, function(){
+var port = process.env.PORT || 3000;
+server.listen(port, function(){
     console.log('서버 실행 중..')
 })
